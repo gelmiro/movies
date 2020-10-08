@@ -1,0 +1,19 @@
+version: "3.3"
+
+services:
+  backend:
+    build: ./backend
+    image: backend
+    container_name: backend
+    command: python ./movies/manage.py runserver 0:8000
+    volumes:
+      - ./backend/:/app
+    ports:
+      - "80:8000"
+    networks:
+      backend:
+
+networks:
+  backend:
+    external:
+      name: backend
