@@ -1,13 +1,27 @@
 version: "3.3"
 
 services:
+  db:
+    image: postgres
+    container_name: db
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5432:5432"
+    networks:
+      backend:
+
   backend:
     build: ./backend
     image: backend
     container_name: backend
-    command: python ./movies/manage.py runserver 0:8000
+    command: python ./manage.py runserver 0:8000
     volumes:
       - ./backend/:/app
+    depends_on:
+      - db
     ports:
       - "80:8000"
     networks:
