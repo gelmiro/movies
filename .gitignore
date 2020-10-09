@@ -1,6 +1,6 @@
 # Project
 .idea/
-/dist
+
 
 scoutlab.*
 
@@ -17,8 +17,8 @@ Thumbs.db
 .env
 
 # Angular/Vue
+dist
 node_modules/
-vue/dist/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
