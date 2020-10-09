@@ -21,12 +21,12 @@ from rest_framework_jwt.views import obtain_jwt_token
 from movies import views
 
 router = DefaultRouter()
-router.register(r'users', views.UserViewSet)
+router.register(r'register', views.CreateUserViewset)
 router.register(r'movies', views.MovieViewSet)
 
 api_urls = [
     url(r'^v1/', include([
-        # JSON API resources
+        # API resources
         url(r'^', include(router.urls)),
 
         # JSON Web Token

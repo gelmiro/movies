@@ -1,8 +1,9 @@
 import requests
 from django.conf import settings
 from django.contrib.auth.models import User
-from rest_framework import viewsets
+from rest_framework import permissions, viewsets
 from rest_framework.decorators import action
+from rest_framework.generics import CreateAPIView
 from rest_framework.response import Response
 from rest_framework.serializers import ValidationError
 
@@ -10,9 +11,11 @@ from movies.models import Movie
 from .serializers import MovieSerializer, UserSerializer
 
 
-class UserViewSet(viewsets.ReadOnlyModelViewSet):
+class CreateUserViewset(viewsets.ViewSetMixin, CreateAPIView):
+    model = User
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    permission_classes = [permissions.AllowAny]
 
 
 class MovieViewSet(viewsets.ModelViewSet):
