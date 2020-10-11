@@ -41,8 +41,6 @@ const actions = {
     commit('setToken', response.data.token)
     commit('setUser', jwt_decode(response.data.token))
     return response
-
-
   },
   async register(_, {username, firstName, lastName, email, password}) {
 

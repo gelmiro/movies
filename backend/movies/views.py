@@ -1,4 +1,5 @@
 import requests
+import pprint
 from django.conf import settings
 from django.contrib.auth.models import User
 from rest_framework import permissions, viewsets
@@ -32,14 +33,23 @@ class MovieViewSet(viewsets.ModelViewSet):
         resp = requests.get(url=settings.OMDB_URL, params=params,
                             proxies={'http': 'http://87.254.212.120:8080'})
         payload = resp.json()
+        pprint.pprint(payload)
         if resp.status_code != 200:
             raise ValidationError('Service is unavailable')
         elif 'True' != payload.get('Response', 'False'):
             raise ValidationError(payload.get('Error', 'Unknown Error'))
 
         serialized = self.omdb_response_validation(payload.get('Search', payload))
+        response = {'data': serialized}
+        self.add_meta(payload, response)
 
-        return Response(serialized)
+        return Response(response)
+
+    def add_meta(self, payload, response):
+        response['meta'] = {}
+        total_results = payload.get('totalResults')
+        if total_results:
+            response['meta']['total_results'] = total_results
 
     def omdb_response_validation(self, data):
         if isinstance(data, dict):

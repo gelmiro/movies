@@ -7,6 +7,6 @@ class Movie(models.Model):
     users = models.ManyToManyField(User, blank=True, related_name='movies')
     imdbID =  models.CharField(max_length=255, unique=True, verbose_name=_('imdb_id'))
     Title = models.CharField(max_length=1000, verbose_name=_('title'))
-    Year = models.IntegerField(verbose_name=_('year'))
+    Year = models.CharField(max_length=255, verbose_name=_('year'))
     Type = models.CharField(max_length=255, verbose_name=_('type'))
-    Poster = models.URLField(verbose_name=_('poster'))
+    Poster = models.CharField(max_length=1000, verbose_name=_('poster'))
