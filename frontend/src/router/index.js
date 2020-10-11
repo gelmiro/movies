@@ -50,6 +50,10 @@ const router = new Router({
           component: Favourite,
         }
       ]
+    },
+    {
+      path: '/*',
+      redirect: '/movies',
     }
   ]
 })

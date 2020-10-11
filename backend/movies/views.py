@@ -52,8 +52,7 @@ class MovieViewSet(viewsets.ModelViewSet):
     def omdb(self, request):
         params = {'apikey': settings.OMDB_APIKEY, **request.query_params}
 
-        resp = requests.get(url=settings.OMDB_URL, params=params,
-                            proxies={'http': 'http://87.254.212.120:8080'})
+        resp = requests.get(url=settings.OMDB_URL, params=params)
         payload = resp.json()
         pprint.pprint(payload)
         if resp.status_code != 200:

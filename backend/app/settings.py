@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 import datetime
 from pathlib import Path
+from .secrets import SECRET_KEY, OMDB_APIKEY
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -19,9 +20,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'v$$u6bvkx(t0_-pkni(2bda59dc2h)()21cn39+re^2qb&e10c'
+
 OMDB_URL = 'http://www.omdbapi.com'
-OMDB_APIKEY = 'bd02f693'
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -139,4 +140,4 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = '/stat/'

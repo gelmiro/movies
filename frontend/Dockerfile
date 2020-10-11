@@ -16,9 +16,6 @@ WORKDIR ${PROJECT_PATH}
 
 RUN npm set registry https://registry.npmjs.org/
 
-
-RUN git config --global url."https://".insteadOf git://
-
 COPY ./ ./
 RUN npm install
 

@@ -10,6 +10,7 @@ services:
       - POSTGRES_PASSWORD=postgres
     ports:
       - "5432:5432"
+    restart: always
     networks:
       backend:
 
@@ -17,13 +18,19 @@ services:
     build: ./backend
     image: backend
     container_name: backend
-    command: python ./manage.py runserver 0:8000
-    volumes:
-      - ./backend/:/app
+    command: python ./manage.py runserver 0:80
+#    volumes:
+#      - ./backend/:/app
+    restart: always
     depends_on:
       - db
-    ports:
-      - "80:8000"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.frontend.priority=10"
+      - "traefik.frontend.rule=PathPrefix:/admin/,/api/,/__debug__/,/stat/,/auth/"
+      - "traefik.backend=backend"
+      - "traefik.port=80"
+      - "traefik.docker.network=backend"
     networks:
       backend:
 
@@ -31,11 +38,34 @@ services:
     build: ./frontend
     image: frontend
     container_name: frontend
-    ports:
-      - "8080:80"
+    restart: always
+    labels:
+      - "traefik.enable=true"
+      - "traefik.frontend.priority=5"
+      - "traefik.frontend.rule=PathPrefix:/"
+      - "traefik.backend=frontend"
+      - "traefik.port=80"
+      - "traefik.docker.network=backend"
     networks:
       backend:
 
+  traefik:
+    image: traefik
+    build:
+      context: .
+      dockerfile: Dockerfile.traefik
+
+    container_name: traefik
+    command: --docker --docker.exposedbydefault=false --logLevel=DEBUG
+    restart: always
+    ports:
+      - "80:80"
+      - "5900:5900"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+#      - ./local.traefik.toml:/traefik.toml
+    networks:
+      backend:
 
 networks:
   backend:
