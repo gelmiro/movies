@@ -5,7 +5,7 @@ import router from '../router'
 import jwt_decode from 'jwt-decode'
 
 Vue.use(VueAxios, axios)
-Vue.axios.defaults.baseURL = 'http://dev4.scout.wro.nsn-rdnet.net/api/v1/'
+Vue.axios.defaults.baseURL = `http://${location.hostname}/api/v1/`
 
 Vue.axios.interceptors.request.use(function(config) {
   const authorization = config.headers.Authorization

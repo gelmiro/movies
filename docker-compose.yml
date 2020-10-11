@@ -27,6 +27,16 @@ services:
     networks:
       backend:
 
+  frontend:
+    build: ./frontend
+    image: frontend
+    container_name: frontend
+    ports:
+      - "8080:80"
+    networks:
+      backend:
+
+
 networks:
   backend:
     external:
