@@ -1,0 +1,11 @@
+FROM traefik:v1.7.6
+
+#############
+# Arg & Env #
+#############
+
+#######
+# App #
+#######
+
+COPY ./traefik.toml /traefik.toml

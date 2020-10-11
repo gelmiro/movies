@@ -1,0 +1,11 @@
+[entryPoints]
+    [entryPoints.http]
+        address = ":80"
+
+    [entryPoints.dashboard]
+    address = ":5900"
+
+[api]
+entryPoint = "dashboard"
+dashboard = true
+debug = true

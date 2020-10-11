@@ -1,0 +1,24 @@
+# Project
+.idea/
+
+
+# Windows
+Thumbs.db
+
+# Python
+*.py[cod]
+
+# Django
+*.pot
+
+# local env files
+.env
+secrets
+
+# Angular/Vue
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+#Protractor
