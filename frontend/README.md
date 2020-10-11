@@ -1,24 +1,44 @@
 # movies
 
-## Project setup
+## Project Deployment (test app)
 ```
-npm install
+docker-compose pull
+docker-compose up -d
+docker exec -it backend python manage.py migrate
+docker exec -it backend python manage.py createsuperuser
+
 ```
 
-### Compiles and hot-reloads for development
+### Project preparation (from scratch)
 ```
-npm run serve
+checkout project
+update file movies/backend/app/secrets.py
+
+You have to generate django SECRET_KEY
+docker exec -it backend python manage.py shell
+from django.core.management.utils import get_random_secret_key
+get_random_secret_key()
+
+OMDB API from  http://www.omdbapi.com/apikey.aspx
+
+docker-compose build
+docker-compose up -d
+docker exec -it backend python manage.py migrate
+docker exec -it backend python manage.py createsuperuser
 ```
 
-### Compiles and minifies for production
+### Project basics
 ```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
+http://localhost/admin/ - routes to django admin panel
+http://localhost/api/v1/ - routes to DRF browsable interface
+http://localhost/ - route to frontend application
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### Frontend development
+```
+install fresh node.js (i.e. node/npm - 14.13.1/6.14.8)
+npm install -g @vue/cli
+from package.json location run npm install 
+npm run-script serve
+```
+
