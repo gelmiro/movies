@@ -1,10 +1,10 @@
 from django.contrib.auth.models import User
-from rest_framework.serializers import ModelSerializer
+from rest_framework import serializers
 
 from movies.models import Movie
 
 
-class UserSerializer(ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('username', 'first_name', 'last_name', 'email', 'password')
@@ -18,8 +18,16 @@ class UserSerializer(ModelSerializer):
         return user
 
 
-class MovieSerializer(ModelSerializer):
+class MovieSerializer(serializers.ModelSerializer):
     class Meta:
         model = Movie
 
-        fields = ('users', 'imdbID', 'Title', 'Year', 'Type', 'Poster')
+        fields = ('id', 'users', 'imdbID', 'Title', 'Year', 'Type', 'Poster')
+
+
+class OMDBSerializer(serializers.Serializer):
+        imdbID = serializers.CharField()
+        Title = serializers.CharField()
+        Year = serializers.CharField()
+        Type = serializers.CharField()
+        Poster = serializers.CharField()

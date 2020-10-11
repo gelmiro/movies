@@ -16,7 +16,7 @@
     <v-container fluid>
       <v-row dense>
         <v-col
-            v-for="movie in movies"
+            v-for="movie in moviesDisplay"
             :key="movie.Title"
             :cols="2"
         >
@@ -34,7 +34,11 @@
               <v-spacer></v-spacer>
 
               <v-btn icon>
-                <v-icon>mdi-heart</v-icon>
+                <v-icon
+                    :color="movie.favourite ? 'red'  : 'blue'"
+                    @click="updateFavourite(movie)"
+                >mdi-heart
+                </v-icon>
               </v-btn>
 
             </v-card-actions>
@@ -70,14 +74,35 @@ export default {
   },
   computed: {
     ...mapState({
-      movies: state => state.requests.movies
+      movies: state => state.requests.movies,
+      favouriteMovies: state => state.requests.favouriteMovies
     }),
     numberOfPages() {
       return Math.ceil(_.get(this.movies, 'meta.total_results', 1) / 100)
+    },
+    moviesDisplay() {
+      const movies = []
+      for (const movie of this.movies) {
+        const favourite = _.find(this.favouriteMovies, {imdbID: movie.imdbID})
+        if (favourite) {
+          movies.push(Object.assign({favourite: true, id: favourite.id}, movie))
+        } else {
+          movies.push(movie)
+        }
+      }
+      return movies
     }
   },
   methods: {
-    ...mapActions(['searchMovie']),
+    ...mapActions(['searchMovie', 'addFavouriteMovie', 'getFavouriteMovie', 'removeFavouriteMovie']),
+    async updateFavourite(movie) {
+      if (movie.id) {
+        await this.removeFavouriteMovie(movie)
+      } else {
+        await this.addFavouriteMovie(movie)
+      }
+
+    }
   },
   watch: {
     search: _.debounce(async function(value) {
@@ -95,6 +120,9 @@ export default {
       await this.searchMovie({text: this.search, page: value})
       this.loading = false
     }
+  },
+  created() {
+    this.getFavouriteMovie()
   }
 }
 </script>

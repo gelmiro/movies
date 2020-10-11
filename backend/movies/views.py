@@ -7,9 +7,10 @@ from rest_framework.decorators import action
 from rest_framework.generics import CreateAPIView
 from rest_framework.response import Response
 from rest_framework.serializers import ValidationError
+from rest_framework import status
 
 from movies.models import Movie
-from .serializers import MovieSerializer, UserSerializer
+from .serializers import MovieSerializer, OMDBSerializer, UserSerializer
 
 
 class CreateUserViewset(viewsets.ViewSetMixin, CreateAPIView):
@@ -25,6 +26,27 @@ class MovieViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return self.queryset.filter(users=self.request.user)
+
+    def create(self, request, *args, **kwargs):
+        request.data['users'] = [self.request.user.id]
+        imdbID = request.data.get('imdbID')
+        try:
+            record = Movie.objects.get(imdbID=imdbID)
+            print('its ok')
+        except Movie.DoesNotExist:
+            print('not found')
+            return super().create(request, *args, **kwargs)
+
+        record.users.add(self.request.user)
+        return Response({}, status=status.HTTP_201_CREATED)
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        if instance.users.count() > 1:
+            instance.users.remove(self.request.user)
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        else:
+            return super().destroy(request, *args, **kwargs)
 
     @action(detail=False)
     def omdb(self, request):
@@ -60,6 +82,6 @@ class MovieViewSet(viewsets.ModelViewSet):
             raise ValidationError('OMDB schema Error')
 
     def record_validation(self, data):
-        serialization = MovieSerializer(data=data)
+        serialization = OMDBSerializer(data=data)
         serialization.is_valid(raise_exception=True)
         return serialization.validated_data
