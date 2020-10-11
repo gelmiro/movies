@@ -13,7 +13,6 @@ ENV PROJECT_PATH /app
 
 WORKDIR ${PROJECT_PATH}
 
-
 RUN npm set registry https://registry.npmjs.org/
 
 COPY ./ ./

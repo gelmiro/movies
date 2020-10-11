@@ -1,8 +1,20 @@
 # movies
 
+## Features
+```
+login view
+register view
+movies search view
+favourites view
+django admin
+REST browsable API
+```
+
 ## Project Deployment (test app)
 ```
+checkout project
 docker-compose pull
+docker network create backend
 docker-compose up -d
 docker exec -it backend python manage.py migrate
 docker exec -it backend python manage.py createsuperuser
@@ -22,6 +34,7 @@ get_random_secret_key()
 OMDB API from  http://www.omdbapi.com/apikey.aspx
 
 docker-compose build
+docker network create backend
 docker-compose up -d
 docker exec -it backend python manage.py migrate
 docker exec -it backend python manage.py createsuperuser
