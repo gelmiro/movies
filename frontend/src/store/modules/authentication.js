@@ -29,6 +29,13 @@ const mutations = {
     state.user.email = email
     state.user.exp = exp
   },
+  logout(state) {
+    localStorage.removeItem('token')
+    state.token = null
+    state.user.username = null
+    state.user.email = null
+    state.user.exp = null
+  },
   setToken(state, token) {
     state.token = token
     localStorage.setItem('token', token)

@@ -4,7 +4,7 @@
       <v-row dense>
         <v-col
             v-for="movie in moviesData"
-            :key="movie.Title"
+            :key="movie.imdbID"
             :cols="2"
         >
           <v-card>

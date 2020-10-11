@@ -12,7 +12,9 @@ const mutations = {
     let movies = payload.data
     movies.meta = payload.meta
     state.movies = movies
-
+  },
+    clearMovies(state) {
+    state.movies = []
   },
   setFavouriteMovies(state, payload) {
     state.favouriteMovies = payload
@@ -21,6 +23,7 @@ const mutations = {
 
 const actions = {
   async searchMovie({commit, rootState}, {text, page = 1}) {
+     commit('clearMovies')
     const response = await Vue.axios.get('/movies/omdb/', {
       params: {s: text, page},
       headers: {'Authorization': `JWT ${rootState.authentication.token}`}

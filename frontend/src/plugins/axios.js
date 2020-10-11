@@ -11,11 +11,16 @@ Vue.axios.interceptors.request.use(function(config) {
   const authorization = config.headers.Authorization
   if (authorization) {
     const token = authorization.replace('JWT ', '')
-    const {exp} = jwt_decode(token)
-    if (!exp || (new Date(0).setUTCSeconds(exp) <= new Date().valueOf())) {
+    try {
+      const {exp} = jwt_decode(token)
+      if (!exp || (new Date(0).setUTCSeconds(exp) <= new Date().valueOf())) {
+        router.push({name: 'login'})
+        return
+      }
+    } catch {
       router.push({name: 'login'})
-      return
     }
+
   }
   return config;
 }, function(error) {

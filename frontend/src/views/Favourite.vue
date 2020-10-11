@@ -2,6 +2,13 @@
   <div>
     <v-row justify-center>
       <v-container fluid>
+        <v-alert
+            v-model="show"
+            type="info"
+            outlined
+        >
+          You do not have favourites movies yet. Go to <router-link to="/movies">search</router-link> and add something.
+        </v-alert>
         <app-movie-cards
             @triggeredMovie="removeFavourite"
             :movies-data="moviesDisplay"
@@ -33,6 +40,9 @@ export default {
         movies.push(Object.assign({favourite: true}, movie))
       }
       return movies
+    },
+    show() {
+      return this.moviesDisplay.length === 0
     }
   },
   methods: {

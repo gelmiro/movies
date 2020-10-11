@@ -1,61 +1,55 @@
 <template>
   <div>
-    <v-app-bar color="#0D47A1" fixed app></v-app-bar>
-    <v-main>
-      <v-container fluid>
-
-        <v-row justify="center">
-          <v-card width="470">
-            <v-form @submit.prevent="onLogin" ref="form">
-              <v-container>
-                <div style="height: 30px">
-                  <v-slide-y-transition>
-                    <span v-for="error in errors.non_field_errors" class="caption red--text text-xs-center" :key="error">{{ error }}</span>
-                  </v-slide-y-transition>
-                </div>
-                <v-text-field
-                    autofocus
-                    type="text"
-                    v-model="user.username"
-                    label="Username"
-                    :error-messages="errors.username"
-                    :rules="[rules.required]"
-                ></v-text-field>
-                <v-text-field
-                    type="text"
-                    v-model="user.firstName"
-                    label="first name"
-                    :error-messages="errors.first_name"
-                ></v-text-field>
-                <v-text-field
-                    type="text"
-                    v-model="user.lastName"
-                    label="last name"
-                    :error-messages="errors.last_name"
-                ></v-text-field>
-                <v-text-field
-                    type="text"
-                    v-model="user.email"
-                    label="email"
-                    :error-messages="errors.email"
-                ></v-text-field>
-                <v-text-field
-                    type="password"
-                    v-model="user.password"
-                    label="password"
-                    :error-messages="errors.password"
-                    :rules="[rules.required]"
-                ></v-text-field>
-                <v-card-actions>
-                  <v-spacer/>
-                  <v-btn text :loading="loading" type="submit">Register</v-btn>
-                </v-card-actions>
-              </v-container>
-            </v-form>
-          </v-card>
-        </v-row>
-      </v-container>
-    </v-main>
+    <v-row justify="center">
+      <v-card width="470">
+        <v-form @submit.prevent="onLogin" ref="form">
+          <v-container>
+            <div style="height: 30px">
+              <v-slide-y-transition>
+                <span v-for="error in errors.non_field_errors" class="caption red--text text-xs-center" :key="error">{{ error }}</span>
+              </v-slide-y-transition>
+            </div>
+            <v-text-field
+                autofocus
+                type="text"
+                v-model="user.username"
+                label="Username"
+                :error-messages="errors.username"
+                :rules="[rules.required]"
+            ></v-text-field>
+            <v-text-field
+                type="text"
+                v-model="user.firstName"
+                label="first name"
+                :error-messages="errors.first_name"
+            ></v-text-field>
+            <v-text-field
+                type="text"
+                v-model="user.lastName"
+                label="last name"
+                :error-messages="errors.last_name"
+            ></v-text-field>
+            <v-text-field
+                type="text"
+                v-model="user.email"
+                label="email"
+                :error-messages="errors.email"
+            ></v-text-field>
+            <v-text-field
+                type="password"
+                v-model="user.password"
+                label="password"
+                :error-messages="errors.password"
+                :rules="[rules.required]"
+            ></v-text-field>
+            <v-card-actions>
+              <v-spacer/>
+              <v-btn text :loading="loading" type="submit">Register</v-btn>
+            </v-card-actions>
+          </v-container>
+        </v-form>
+      </v-card>
+    </v-row>
   </div>
 </template>
 
@@ -101,7 +95,7 @@ export default {
       try {
         await this.register(this.user)
         this.$router.push('/login')
-      } catch(error) {
+      } catch (error) {
         Object.assign(this.errors, error.response.data)
       }
       this.loading = false

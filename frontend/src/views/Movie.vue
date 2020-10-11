@@ -8,6 +8,7 @@
             v-model="search"
             :loading="loading"
             label="Search"
+            placeholder="Start typing title"
             clearable
             :error-messages="errors"
         ></v-text-field>
