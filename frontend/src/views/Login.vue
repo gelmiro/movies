@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-app-bar color="#0D47A1" fixed app :clipped-left="$vuetify.breakpoint.lgAndUp"></v-app-bar>
+    <v-app-bar color="#0D47A1" fixed app></v-app-bar>
     <v-main>
       <v-container fluid>
 
@@ -10,20 +10,22 @@
               <v-container>
                 <div style="height: 30px">
                   <v-slide-y-transition>
-                    <span v-for="error in errors" class="caption red--text text-xs-center" :key="error">{{ error }}</span>
+                    <span v-for="error in errors.non_field_errors" class="caption red--text text-xs-center" :key="error">{{ error }}</span>
                   </v-slide-y-transition>
                 </div>
                 <v-text-field
                     autofocus
                     type="text"
-                    v-model="username"
+                    v-model="user.username"
                     label="Username"
+                    :error-messages="errors.username"
                     :rules="[rules.required]"
                 ></v-text-field>
                 <v-text-field
                     type="password"
-                    v-model="password"
-                    label="Password"
+                    v-model="user.password"
+                    label="password"
+                    :error-messages="errors.password"
                     :rules="[rules.required]"
                 ></v-text-field>
                 <v-card-actions>
@@ -47,14 +49,23 @@ export default {
 
   name: "Login",
   data() {
+    const blankErrors = Object.freeze({
+      username: [],
+      password: [],
+      non_field_errors: []
+    })
     return {
-      username: '',
-      password: '',
+      user: {
+        username: '',
+        password: '',
+      },
+
       rules: {
         required: val => _.isNil(val) || !val.length ? 'field is required!' : true
       },
 
-      errors: [],
+      errors: Object.assign({}, blankErrors),
+      blankErrors,
       loading: false
     }
   },
@@ -63,11 +74,12 @@ export default {
     ...mapActions(['login']),
     async onLogin() {
       this.loading = true
+      this.errors = Object.assign({}, this.blankErrors)
       try {
-        await this.login({username: this.username, password: this.password})
+        await this.login(this.user)
         this.$router.push('/')
       } catch (error) {
-        this.errors = _.get(error, 'response.data.non_field_errors', ['Unknown error'])
+        Object.assign(this.errors, error.response.data)
       }
       this.loading = false
 

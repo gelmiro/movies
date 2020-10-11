@@ -1,10 +1,16 @@
 import Vue from 'vue'
 import jwt_decode from 'jwt-decode'
-import router from "../../router";
 
 const token = localStorage.getItem('token')
-const {username, email, exp} = jwt_decode(token)
-Vue.axios.defaults.headers = {'Authorization': `JWT ${localStorage.getItem('token')}`}
+let decoded
+try {
+  decoded = jwt_decode(token)
+
+} catch {
+  decoded = {}
+}
+const {username, email, exp} = decoded
+
 
 const state = {
   token,
@@ -26,33 +32,27 @@ const mutations = {
   setToken(state, token) {
     state.token = token
     localStorage.setItem('token', token)
-    Vue.axios.defaults.headers = {'Authorization': `JWT ${localStorage.getItem('token')}`}
   }
 }
 
 const actions = {
   async login({commit}, {username, password}) {
-      const response = await Vue.axios.post('/api_token_obtain/', {username, password})
-      commit('setToken', response.data.token)
-      commit('setUser', jwt_decode(response.data.token))
-      return response
+    const response = await Vue.axios.post('/api_token_obtain/', {username, password})
+    commit('setToken', response.data.token)
+    commit('setUser', jwt_decode(response.data.token))
+    return response
 
 
   },
   async register(_, {username, firstName, lastName, email, password}) {
-    try {
-      await Vue.axios.post('/register/', {
-        username,
-        first_name: firstName,
-        last_name: lastName,
-        email,
-        password
-      })
-      router.push({name: 'login'})
-    } catch (error) {
-      return error
-    }
 
+    return await Vue.axios.post('/register/', {
+      username,
+      first_name: firstName,
+      last_name: lastName,
+      email,
+      password
+    })
   }
 }
 
