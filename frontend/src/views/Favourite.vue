@@ -1,13 +1,13 @@
 <template>
   <div>
-    movie placeholder
+    favourite placeholder
   </div>
 </template>
 
 <script>
 
   export default {
-    name: "Movie",
+    name: "Favourite",
     data() {
       return {
       }

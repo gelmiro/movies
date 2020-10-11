@@ -1,13 +1,13 @@
 <template>
   <div>
-    movie placeholder
+    register placeholder
   </div>
 </template>
 
 <script>
 
   export default {
-    name: "Movie",
+    name: "Register",
     data() {
       return {
       }
