@@ -14,37 +14,10 @@
       </v-flex>
     </v-layout>
     <v-container fluid>
-      <v-row dense>
-        <v-col
-            v-for="movie in moviesDisplay"
-            :key="movie.Title"
-            :cols="2"
-        >
-          <v-card>
-            <v-img
-                :src="movie.Poster"
-                class="white--text align-end"
-                gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-                height="400px"
-            >
-              <v-card-title v-text="movie.Title"></v-card-title>
-            </v-img>
-
-            <v-card-actions>
-              <v-spacer></v-spacer>
-
-              <v-btn icon>
-                <v-icon
-                    :color="movie.favourite ? 'red'  : 'blue'"
-                    @click="updateFavourite(movie)"
-                >mdi-heart
-                </v-icon>
-              </v-btn>
-
-            </v-card-actions>
-          </v-card>
-        </v-col>
-      </v-row>
+      <app-movie-cards
+      @triggeredMovie="updateFavourite"
+      :movies-data="moviesDisplay"
+      ></app-movie-cards>
       <v-container>
         <v-pagination
             v-model="page"
@@ -61,9 +34,13 @@
 <script>
 import _ from 'lodash'
 import {mapState, mapActions} from "vuex";
+import MovieCards from "../components/MovieCards";
 
 export default {
   name: "Movie",
+  components: {
+    'appMovieCards': MovieCards,
+  },
   data() {
     return {
       search: '',
