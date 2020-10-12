@@ -32,9 +32,7 @@ class MovieViewSet(viewsets.ModelViewSet):
         imdbID = request.data.get('imdbID')
         try:
             record = Movie.objects.get(imdbID=imdbID)
-            print('its ok')
         except Movie.DoesNotExist:
-            print('not found')
             return super().create(request, *args, **kwargs)
 
         record.users.add(self.request.user)
