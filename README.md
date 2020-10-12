@@ -1,7 +1,9 @@
 # movies
 
+
 ## Application Structure
 ![](app.svg)
+
 ## Features
 ```
 login view
@@ -12,7 +14,9 @@ django admin
 REST browsable API
 ```
 
+
 ## Demo Deployment (test app)
+
 ```
 checkout project
 docker-compose pull
